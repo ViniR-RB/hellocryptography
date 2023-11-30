@@ -7,6 +7,7 @@ import 'package:validatorless/validatorless.dart';
 
 import '../../../core/services/open_file_service.dart';
 import '../../../core/widgets/text_field_custom.dart';
+import '../dto/send_document_encrypted_secure_dto.dart';
 
 class SendDocumentPage extends StatefulWidget {
   final DocumentStore store;
@@ -66,11 +67,18 @@ class _SendDocumentPageState extends State<SendDocumentPage> {
                   child: const Text("Selecione o Arquivo"),
                 ),
                 ElevatedButton(
-                  onPressed: () async =>
-                      await widget.store.sendDocumentInsecure(
-                    SendDocumentEncryptedDto(
-                        _documentNameEC.value.text, _filePicked),
-                  ),
+                  onPressed: () async => light == true
+                      ? await widget.store.sendDocumentSecure(
+                          SendDocumentEncryptedSecureDto(
+                              _filePicked.path.split("file_picker/")[1],
+                              _filePicked,
+                              "",
+                              ""))
+                      : await widget.store.sendDocumentInsecure(
+                          SendDocumentEncryptedDto(
+                              _filePicked.path.split("file_picker/")[1],
+                              _filePicked),
+                        ),
                   child: const Text("Enviar Arquivo"),
                 ),
               ],

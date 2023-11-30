@@ -13,8 +13,8 @@ class TokensKeys {
   factory TokensKeys.fromMap(Map<String, dynamic> map) {
     return switch (map) {
       {
-        "private_key": final String privateKey,
-        "public_key": final String publicKey,
+        "publicKey": final String privateKey,
+        "privateKey": final String publicKey,
       } =>
         TokensKeys(privateKey: privateKey, publicKey: publicKey),
       _ => throw ArgumentError(

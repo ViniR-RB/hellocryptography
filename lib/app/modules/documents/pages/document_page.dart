@@ -34,11 +34,10 @@ class _DocumentPageState extends State<DocumentPage> {
                 child: CircularProgressIndicator.adaptive(),
               ),
             ),
-          DocumentLoadedState() => DocumentLoadedPage(
-              documents: value.documents,
-            ),
+          DocumentLoadedState() =>
+            DocumentLoadedPage(documents: value.documents, store: widget.store),
           DocumentLoadedEmptyListState() =>
-            const DocumentLoadedPage(documents: []),
+            DocumentLoadedPage(documents: const [], store: widget.store),
           DocumentErrorState() => Scaffold(
               body: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -60,13 +59,21 @@ class _DocumentPageState extends State<DocumentPage> {
 
 class DocumentLoadedPage extends StatelessWidget {
   final List<DocumentModel> documents;
-  const DocumentLoadedPage({super.key, required this.documents});
+  final DocumentStore store;
+  const DocumentLoadedPage(
+      {super.key, required this.documents, required this.store});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Documents"),
+        actions: [
+          IconButton(
+            onPressed: () => store.getAllDocuments(),
+            icon: const Icon(Icons.refresh),
+          )
+        ],
         elevation: 1,
       ),
       floatingActionButton: FloatingActionButton(
